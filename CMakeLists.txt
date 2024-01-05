@@ -15,7 +15,10 @@ if(NOT ADS_VERSION)
     string(REGEX REPLACE "^([0-9]+)\\..*" "\\1" VERSION_MAJOR "${GitTagVersion}")
     string(REGEX REPLACE "^[0-9]+\\.([0-9]+).*" "\\1" VERSION_MINOR "${GitTagVersion}")
     string(REGEX REPLACE "^[0-9]+\\.[0-9]+\\.([0-9]+).*" "\\1" VERSION_PATCH "${GitTagVersion}")
+	
     set(VERSION_SHORT "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
+	set(VERSION_SHORT "1.0.1")
+
 else()
     string(REGEX MATCHALL "[\.]" VERSION_DOT_MATCHES ${ADS_VERSION})
     list(LENGTH VERSION_DOT_MATCHES VERSION_DOT_COUNT)
@@ -37,7 +40,8 @@ if("${CMAKE_SIZEOF_VOID_P}" STREQUAL "4")
 else()
     set(ads_PlatformDir "x64")
 endif()
-
+# 强制设置ads_PlatformDir，并确保它被用作缓存变量
+set(ads_PlatformDir "" CACHE INTERNAL "Platform directory" FORCE)
 add_subdirectory(src)
 
 if(BUILD_EXAMPLES)
